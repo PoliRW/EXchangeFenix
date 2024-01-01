@@ -72,9 +72,6 @@ if (array_key_exists("stranka", $_GET)) {
             </div>
         </header>
 
-
-
-
         <section>
             <?php
 
@@ -101,7 +98,8 @@ if (array_key_exists("stranka", $_GET)) {
             <?php
             }
             ?>
-            <footer>
+        </section>
+        <footer>
 
                 <div class="footer">
                     <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2560.139003578325!2d14.416671188854988!3d50.083684299999994!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x470b9576590d8e0d%3A0xcbd360f6a29778d1!2sPerlov%C3%A1%20Exchange!5e0!3m2!1sen!2scz!4v1701697221511!5m2!1sen!2scz" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
@@ -132,7 +130,7 @@ if (array_key_exists("stranka", $_GET)) {
                     </div>
                     <p> Copyright &copy; 2022 PERLOVA EXCHANGE s.r.o. Všechny práva vyhrazena.</p>
                 </div>
-            </footer>
+        </footer>
     </main>
 </body>
 
