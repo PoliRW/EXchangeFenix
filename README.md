@@ -34,3 +34,10 @@ Note: tinymce's language settings are in czech language
                     toolbar2: "link unlink anchor | fontawesome | image media | responsivefilemanager | preview code",
                 });
             </script>
+
+
+   Note 2:
+    
+   Application administration is not yet complete. 
+            
+   I am looking for the best solution to send the new information from a table in the administration to the DB and initialize it in the user page
