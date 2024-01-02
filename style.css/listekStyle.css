@@ -1,0 +1,42 @@
+/* style table */
+
+table {
+    width: 100%;
+    top: -5px;
+    border: 1px solid #616A6B;
+    padding: 15px 0;
+    margin: 0 auto;
+
+}
+
+th,
+td {
+    vertical-align: text-bottom;
+    padding: 5px;
+    border-bottom: 1px solid #1C2833;
+}
+
+th {
+    background-color: #4D5656;
+    color: #F4F6F6;
+    height: 20px;
+    font-size: 18px;
+}
+
+td {
+    background-color: rgba(229, 231, 233, 0.6);
+    text-align: center;
+    height: 20px;
+    cursor: text;
+    font-size: 18px;
+}
+
+td img {
+    width: 35px;
+    box-sizing: border-box;
+}
+
+.dark {
+    background-color: #a8afaf78;
+    ;
+}
