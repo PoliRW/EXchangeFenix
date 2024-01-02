@@ -47,8 +47,13 @@ if (array_key_exists("stranka", $_GET)) {
                         <a href="tel:+420606123456"> (+420) 606 123 456</a>
                     </div>
                     <div class="moneyTransfer">
+                        <?php
+                        foreach ($seznamStranek as $klic => $instanceStranky) {
+                            if ($instanceStranky->id == 'prevody') {
+                                echo "<a href='$instanceStranky->id' class='moneyTransfer'>$instanceStranky->menu </a>";
+                            }
+                        }; ?>
 
-                        <a href="./" class="moneyTransfer">Převody peněz </a>
                     </div>
                 </div>
 
@@ -101,35 +106,35 @@ if (array_key_exists("stranka", $_GET)) {
         </section>
         <footer>
 
-                <div class="footer">
-                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2560.139003578325!2d14.416671188854988!3d50.083684299999994!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x470b9576590d8e0d%3A0xcbd360f6a29778d1!2sPerlov%C3%A1%20Exchange!5e0!3m2!1sen!2scz!4v1701697221511!5m2!1sen!2scz" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-                    <div class="footerFlex">
-                        <div class="flex1">
-                            <ul>
-                                <li>Kontakkt</li>
-                                <li><a href="tel:+420606123456"> (+420) 606 123 456</a></li>
-                                <li> <a href="mailto:">smenarnaperlova@gmail.com</a></li>
-                            </ul>
-                        </div>
-                        <div class="flex2">
-                            <ul>
-                                <li> Pracovna doba</li>
-                                <li> Po-pá 9.00 - 19.00</li>
-                                <li> So - ne 10.00 - 18.00 </li>
-
-                            </ul>
-                        </div>
-                        <div class="flex2">
-                            <ul>
-                                <li> FENIX PARTERS s.r.o.</li>
-                                <li> Harlaherova 3321/10 </li>
-                                <li> Praha 10 106 00 </li>
-                            </ul>
-                        </div>
-
+            <div class="footer">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2560.139003578325!2d14.416671188854988!3d50.083684299999994!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x470b9576590d8e0d%3A0xcbd360f6a29778d1!2sPerlov%C3%A1%20Exchange!5e0!3m2!1sen!2scz!4v1701697221511!5m2!1sen!2scz" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                <div class="footerFlex">
+                    <div class="flex1">
+                        <ul>
+                            <li>Kontakkt</li>
+                            <li><a href="tel:+420606123456"> (+420) 606 123 456</a></li>
+                            <li> <a href="mailto:">smenarnaperlova@gmail.com</a></li>
+                        </ul>
                     </div>
-                    <p> Copyright &copy; 2022 PERLOVA EXCHANGE s.r.o. Všechny práva vyhrazena.</p>
+                    <div class="flex2">
+                        <ul>
+                            <li> Pracovna doba</li>
+                            <li> Po-pá 9.00 - 19.00</li>
+                            <li> So - ne 10.00 - 18.00 </li>
+
+                        </ul>
+                    </div>
+                    <div class="flex2">
+                        <ul>
+                            <li> FENIX PARTERS s.r.o.</li>
+                            <li> Harlaherova 3321/10 </li>
+                            <li> Praha 10 106 00 </li>
+                        </ul>
+                    </div>
+
                 </div>
+                <p> Copyright &copy; 2022 PERLOVA EXCHANGE s.r.o. Všechny práva vyhrazena.</p>
+            </div>
         </footer>
     </main>
 </body>
