@@ -1,4 +1,4 @@
-<?php require_once 'listek.php';?>
+<?php require_once 'listek.php'; ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -17,9 +17,7 @@
             <!-- <label id="nazevMena"> Název měny </label> -->
 
             <!-- <label id=""> Kód </label>
-        <label id=""> Nas.</label>
-        <label id=""> Nákup/</label>
-        <label id=""> Prodej/Sell</label> -->
+        <label id=""> Nas.</label><label id=""> Nákup/</label><label id=""> Prodej/Sell</label> -->
 
             <!-- instance listek = radek v tabulka mena a info  -->
             <table>
@@ -31,27 +29,25 @@
                     <th>Nákup/Buy</th>
                     <th>Prodej/Sell</th>
                 </tr>
-
                 <?php foreach ($seznamListek as $klicRadek => $instanceRadek) { ?>
                     <tr>
                         <td>
-                            <input type="text" name="menaNazev" value="<?php echo htmlspecialchars($instanceRadek->menaNazev); ?>"></input>
+                            <input type="text" name="menaNazev" value="<?php echo htmlspecialchars($instanceRadek->menaNazev); ?>"/>
                         </td>
                         <td>
-                            <input type="text" name="menaKod" value="<?php echo htmlspecialchars($instanceRadek->menaKod); ?>"></input>
+                            <input type="text" name="menaKod" value="<?php echo htmlspecialchars($instanceRadek->menaKod); ?>"/>
                         </td>
                         <td>
-                            <input type="text" name="mnozstvi" value="<?php echo htmlspecialchars($instanceRadek->mnozstvi); ?>"></input>
+                            <input type="text" name="mnozstvi" value="<?php echo htmlspecialchars($instanceRadek->mnozstvi); ?>"/>
                         </td>
                         <td>
-                            <input type="text" name="cenaNakup" value="<?php echo htmlspecialchars($instanceRadek->cenaNakup); ?>"></input>
+                            <input type="text" name="cenaNakup" value="<?php echo htmlspecialchars($instanceRadek->cenaNakup); ?>"/>
                         </td>
-                        <td><input type="text" name="cenaProdej" value="<?php echo htmlspecialchars($instanceRadek->cenaProdej); ?>"></input></td>
+                        <td><input type="text" name="cenaProdej" value="<?php echo htmlspecialchars($instanceRadek->cenaProdej);?>"/></td>
                     </tr>
                 <?php
                 }
                 ?>
-
             </table>
             <button name='ulozit'>Uložit</button>
         </form>
