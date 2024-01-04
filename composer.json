@@ -1,0 +1,7 @@
+{
+    "require": {
+        "tinymce/tinymce": "^6.8",
+        "tweeb/tinymce-i18n": "^2.0",
+        "primakurzy/shortcode": "^1.0"
+    }
+}
