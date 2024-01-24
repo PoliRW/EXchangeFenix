@@ -156,9 +156,9 @@ if (array_key_exists("prihlasenyUzivatel", $_SESSION)) {
                             <div class="styleBox">
                                 <label for='id'>Id:</label>
                                 <input type='text' name='id' id='id' value='<?php echo htmlspecialchars($instanceAktualniStranky->id) ?>'>
-                                <label for='id'>Titulek:</label>
+                                <label for='titulek'>Titulek:</label>
                                 <input type='text' name='titulek' id='titulek' value='<?php echo htmlspecialchars($instanceAktualniStranky->titulek) ?>'>
-                                <label for='id'>Menu:</label>
+                                <label for='menu'>Menu:</label>
                                 <input type='text' name='menu' id='menu' value='<?php echo htmlspecialchars($instanceAktualniStranky->menu) ?>'>
                             </div>
 
