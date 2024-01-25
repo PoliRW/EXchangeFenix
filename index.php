@@ -17,8 +17,8 @@ if (array_key_exists("stranka", $_GET)) {
         $aktualniStranka = "404";
     }
 } else {
-
-    $aktualniStranka = "uvod";
+    // zistim prvni stranku z pole seznamStranek
+    $aktualniStranka = array_key_first($seznamStranek);
 }
 
 ?>
@@ -82,7 +82,7 @@ if (array_key_exists("stranka", $_GET)) {
 
             //zobrazit  vybrana stranka
             $obsah = $seznamStranek[$aktualniStranka]->getObsah();
-            // call library function
+            // call library function 
             echo primakurzy\Shortcode\Processor::process('shortcodes', $obsah);
             echo "</section>";
             if (!array_key_exists("souhlasim", $_COOKIE)) {
@@ -107,7 +107,7 @@ if (array_key_exists("stranka", $_GET)) {
         <footer>
 
             <div class="footer">
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2560.139003578325!2d14.416671188854988!3d50.083684299999994!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x470b9576590d8e0d%3A0xcbd360f6a29778d1!2sPerlov%C3%A1%20Exchange!5e0!3m2!1sen!2scz!4v1701697221511!5m2!1sen!2scz" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d10240.536936541344!2d14.403001155419918!3d50.08377359999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x470b95e1fd7c93e1%3A0x52bd341f11378233!2sMoney%20Gram%20%26%20EXCHANGE%20Sm%C4%9Bn%C3%A1rna!5e0!3m2!1sen!2scz!4v1706178678858!5m2!1sen!2scz" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                 <div class="footerFlex">
                     <div class="flex1">
                         <ul>
@@ -133,7 +133,8 @@ if (array_key_exists("stranka", $_GET)) {
                     </div>
 
                 </div>
-                <p> Copyright &copy; 2022 PERLOVA EXCHANGE s.r.o. Všechny práva vyhrazena.</p>
+                <!-- <\\?=  = <\\?php echo -->
+                <p> Copyright &copy;<?= date('Y');?> PERLOVA EXCHANGE s.r.o. Všechny práva vyhrazena.</p>
             </div>
         </footer>
     </main>
