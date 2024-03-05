@@ -9,7 +9,6 @@ $db = new PDO(
     ),
 );
 
-
 class Radek
 {
     public $id;
@@ -37,12 +36,17 @@ class Radek
         $this->cenaNakup = $cenaNakupArg;
         $this->cenaProdej = $cenaProdejArg;
     }
-    function ulozitCena($cena)
+
+    static function nastavitCena($cenaNakup)
     {
-        global $db;
-        $dotaz = $db->prepare("UPDATE listek SET cena_nakup = ? WHERE mena_kod = ?");
-        $dotaz->execute([$cena, $this->menaKod]);
+        // global $db;
+        // //projdeme pole s cena nakup 
+        // foreach ($cenaNakup as $klic => $idRadek) {
+        //     $dotaz=$db->prepare("UPDATE listek SET cena_nakup =? WHERE mena_kod");
+        //     $dotaz->execute([]);
+        // }
     }
+
 }
 
 $seznamListek = [];

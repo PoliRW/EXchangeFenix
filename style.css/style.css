@@ -150,7 +150,12 @@ main {
     padding: 20px;
 }
 
-/* next website pobocky */
+/* skryt adresa */
+ul .schovat {
+    opacity: 0;
+}
+
+/*dalsi website pobocky */
 section>.displayFlex {
     margin: 0;
     display: inline-flex;
@@ -169,4 +174,33 @@ section>.displayFlex {
     text-align: center;
     font-weight: 600;
     font-size: x-large;
+}
+
+/* sipka */
+.nahoru {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    width: 45px;
+    height: 45px;
+    font-size: 30px;
+    background-color: rgba(204, 74, 23, 0.8);
+    color: white;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 21%;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.5s linear;
+
+}
+
+.nahoru.zobrazit {
+    opacity: 1;
+}
+
+ul .adress {
+    cursor: pointer;
 }

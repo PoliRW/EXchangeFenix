@@ -34,7 +34,7 @@ if (array_key_exists("stranka", $_GET)) {
     <link rel="stylesheet" href="style.css/listekStyle.css">
     <link rel="shortcut icon" href="image/change.png" type="image/x-icon">
     <title><?php echo $seznamStranek[$aktualniStranka]->titulek; ?></title>
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 
 <body>
@@ -124,20 +124,24 @@ if (array_key_exists("stranka", $_GET)) {
 
                         </ul>
                     </div>
-                    <div class="flex2">
+                    <div class="flex2 ">
                         <ul>
-                            <li> FENIX PARTERS s.r.o.</li>
-                            <li> Harlaherova 3321/10 </li>
-                            <li> Praha 10 106 00 </li>
+                            <li class="adress"> FENIX PARTERS s.r.o.</li>
+                            <li class="schovat zobrazitAdress"> Harlaherova 3321/10 </li>
+                            <li class="schovat zobrazitAdress"> Praha 10 106 00 </li>
                         </ul>
                     </div>
 
                 </div>
                 <!-- <\\?=  = <\\?php echo -->
-                <p> Copyright &copy;<?= date('Y');?> PERLOVA EXCHANGE s.r.o. Všechny práva vyhrazena.</p>
+                <p> Copyright &copy;<?= date('Y'); ?> PERLOVA EXCHANGE s.r.o. Všechny práva vyhrazena.</p>
             </div>
         </footer>
+        <div class="nahoru">
+            <i class="fa-solid fa-caret-up"></i>
+        </div>
     </main>
+    <script src="js/index.js"></script>
 </body>
 
 </html>
