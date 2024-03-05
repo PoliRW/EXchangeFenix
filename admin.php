@@ -2,11 +2,62 @@
 session_start();
 require_once 'stranky.php';
 require_once 'listek.php';
+require_once 'uzivatel.php';
+$jmeno = " ";
+$heslo = " ";
+$heslo_znovu = " ";
+$chyba = [];
+// Zpracování registračního formuláře
+//-------------------------------------------------------------------------------------------------------------------------------------
+if (array_key_exists("registraceFormular", $_POST)) {
+    $registrovat = 1;}
+
+    if (array_key_exists("registrovat", $_POST)) {
+        $jmeno = $_POST["jmeno"];
+        $heslo = $_POST["heslo"];
+        $znovu_heslo = $_POST["heslo_znovu"];
+        $admin = new Uzivatel($jmeno, $heslo);
+        // Kontrola délky jména
+        if (strlen($jmeno) < 3) {
+            $chyba[] = "Jméno musí být minimálně 3 znaky.";
+        }
+
+        // Kontrola velkých písmen v hesle
+        if (!preg_match('/[A-Z]/', $heslo)) {
+            $chyba[] = "Heslo musí obsahovat alespoň 1 velké písmeno.";
+        }
+
+        // Kontrola speciálních znaků v hesle
+        if (!preg_match('/[^a-zA-Z0-9]/', $heslo)) {
+            $chyba[] = "Heslo musí obsahovat alespoň 1 speciální znak.";
+        }
+
+        // Kontrola délky hesla
+        if (strlen($heslo) < 8) {
+            $chyba[] = "Heslo musí být minimálně 8 znaků dlouhé.";
+        }
+
+        // Kontrola shody hesel
+        if ($heslo !== $znovu_heslo) {
+            $chyba[] = "Hesla se neshodují.";
+        }
+
+        if (empty($chyba)) {
+            $admin->registrovat();
+        } else {
+            $_SESSION["chyba"] = $chyba;
+        }
+    }
+
+//konec zpracování registračního formuláře
+//-------------------------------------------------------------------------------------------------------------------------------------
+
+
+
 //zpracovani prihl. formulare
 if (array_key_exists("prihlasit", $_POST)) {
     $jmeno = $_POST["jmeno"];
     $heslo = $_POST["heslo"];
-
 
     if ($jmeno == "admin" && $heslo == "1234") {
 
@@ -14,11 +65,9 @@ if (array_key_exists("prihlasit", $_POST)) {
         $_SESSION["prihlasenyUzivatel"] = $jmeno;
     } else {
         //-neplatne zadani udaje - presmerujeme stranka aby takto kod fungoval v miste kde je zobrazeni 
-        // chyba pridame podminka   ----if (array_key_exists('chyba', $_SESSION)) {
-        //     echo $_SESSION['chyba'];
-        //     unset($_SESSION['chyba']);}
-
-        $_SESSION["chyba"] = " Chybně zadané heslo nebo uživatelské jméno";
+        $chyba[] = " Chybně zadané heslo nebo uživatelské jméno";
+        $_SESSION["chyba"] = $chyba;
+        //// Přesměrování zpět na přihlašovací formulář pomocí header Location
         header("Location: ?");
         exit;
     }
@@ -70,19 +119,9 @@ if (array_key_exists("prihlasenyUzivatel", $_SESSION)) {
         //poznamenat provedena zmena
     }
 
-    //zpracovani listek
-    //  zpracovani vyberu aktualni radek
-    $idRadek = "";
-    $instanceAktualniRadek = "";
-    if (array_key_exists("radek", $_GET)) {
-        $idRadek = $_GET["radek"];
-        $instanceAktualniRadek = $seznamListek[$idRadek];
-        $pomocnaPromenaKvuliPodminki;
-    }
     // zpracovani pozadavku zmeny poradi stranek z javascriptu (ajaxem)
     if (array_key_exists("poradi", $_GET)) {
         $poradi = $_GET["poradi"];
-        var_dump($_GET);
 
         // zavolani funkce pro nastaveni poradi a ulozeni do db
         Stranka::nastavitPoradi($poradi);
@@ -92,8 +131,14 @@ if (array_key_exists("prihlasenyUzivatel", $_SESSION)) {
         // html stranky
         exit;
     }
+    //zpracovani listek
+    //  zpracovani vyberu aktualni radek
+    $idRadek = "";
+    $instanceAktualniRadek = null;
+    if (array_key_exists("radek", $_GET)) {
+        $idRadek = $_GET["radek"];
+    }
 }
-// pri vybrani mena z listku se vracim zpet na ?
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -114,28 +159,65 @@ if (array_key_exists("prihlasenyUzivatel", $_SESSION)) {
 <body>
     <main class='padding'>
         <?php
-        if (array_key_exists("prihlasenyUzivatel", $_SESSION) == false) {
-            // sekce pro neprihlasene uzivatele
+        if (isset($registrovat) == 1) {
+
+            //Sekce pro registraci uživatele
+            //------------------------------------------------------------------------------------------------------------
         ?>
             <form method="post" class="styleBox">
                 <label for="jmeno">Jmeno</label>
                 <input type="text" name="jmeno" id="jmeno">
                 <label for="heslo">Heslo</label>
                 <input type="password" name="heslo" id="heslo">
+                <label for="heslo2">Heslo znovu</label>
+                <input type="password" name="heslo_znovu" id="heslo2">
+                <button name="registrovat"> Registrovat </button>
+            </form>
+            <?php
+            // Zpracování chyb
+
+            if (isset($_SESSION["chyba"])) {
+                foreach ($_SESSION["chyba"] as $chyba) {
+                    echo "<p>$chyba</p>";
+    // Registrační sekce pro nepřihlášené a nepodařenou registraci uživatele
+                }
+                // unset($_SESSION["chyba"]);
+                
+            }
+
+
+            //Konec Sekce pro registraci uživatele
+            //----------------------------------------------------------------------------------------------------------------------
+            exit;
+        }
+
+
+        if (array_key_exists("prihlasenyUzivatel", $_SESSION) == false) {
+            // Sekce pro neprihlasene uzivatele
+            //-----------------------------------------------------------------------------------------------------------------
+            ?>
+            <form method="post" class="styleBox">
+                <label for="jmeno">Jmeno</label>
+                <input type="text" name="jmeno" id="jmeno">
+                <label for="heslo">Heslo</label>
+                <input type="password" name="heslo" id="heslo">
                 <button name="prihlasit"> Přihlásit se </button>
+                <button name="registraceFormular"> Registrovat </button>
             </form>
             <?php
 
             //chyba
 
-            if (array_key_exists('chyba', $_SESSION)) {
-                echo $_SESSION['chyba'];
-                unset($_SESSION['chyba']);
+            if (isset($_SESSION["chyba"])) {
+                foreach ($_SESSION["chyba"] as $chyba) {
+                    echo "<p>$chyba</p>";
+                }
+                unset($_SESSION["chyba"]);
             }
         } else {
             // sekce pro prihlasene uzivatele
             // podminka pro zobrazeni listek
-            if (!(array_key_exists('radek', $_GET))) {
+            if (isset($_GET['radek']) == false) {
 
                 echo "<div class='styleBox color'>Přihlášen uživatel: {$_SESSION["prihlasenyUzivatel"]}";
             ?>
@@ -199,7 +281,7 @@ if (array_key_exists("prihlasenyUzivatel", $_SESSION)) {
                  </form>";
                         }
                     } else { ?>
-                            <form method="get" class="styleBox">
+                            <form method="get" class="styleBox" action="editaceTabulky.php">
                                 <!-- <label id="nazevMena"> Název měny </label> -->
                                 <!-- <label id=""> Kód </label>
         <label id=""> Nas.</label><label id=""> Nákup/</label><label id=""> Prodej/Sell</label> -->
@@ -219,9 +301,6 @@ if (array_key_exists("prihlasenyUzivatel", $_SESSION)) {
                                                 <a <?php
                                                     echo "href='?radek=$instanceRadek->menaKod'" ?>><?php echo $instanceRadek->menaNazev; ?></a>
 
-                                                <!-- link nefunguje pri method post nachradim button
-                            <button name="radek" <php echo "value= '$instanceRadek->menaKod'" ?>><php echo $instanceRadek->menaNazev; ?></button>  -->
-
                                             </td>
                                             <td>
                                                 <input type="text" name="menaKod" value="<?php echo htmlspecialchars($instanceRadek->menaKod); ?>" />
@@ -238,7 +317,10 @@ if (array_key_exists("prihlasenyUzivatel", $_SESSION)) {
                                         </tr>
 
                                     <?php
-                                    } ?>
+                                        $instanceRadek->cenaNakup = $_GET['cenaNakup'];
+                                        var_dump($instanceRadek->cenaNakup);
+                                    }
+                                    ?>
 
 
                                 </table>
