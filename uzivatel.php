@@ -1,13 +1,5 @@
 <?php
-
-$db = new PDO(
-    "mysql:host = localhostl;dbname=exchange;charset=utf8",
-    "root",
-    "",
-    array(
-        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-    ),
-);
+require_once 'connect.php';
 
 class Uzivatel
 {
