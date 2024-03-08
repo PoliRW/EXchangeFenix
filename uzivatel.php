@@ -18,16 +18,18 @@ class Uzivatel
         global $db;
 
         // Kontrola počtu registrovaných adminů
-        $dotazAdmini = $db->query("SELECT COUNT(*) FROM uzivatel WHERE role = 'admin'");
+        $dotazAdmini = $db->query("SELECT COUNT(*) FROM uzivatel ");
         $pocetAdminu = $dotazAdmini->fetchColumn();
 
         if ($pocetAdminu < 2) {
-            $dotaz = $db->prepare("INSERT INTO uzivatel SET jmeno=? , heslo = ? , role = 'admin'");
+            $dotaz = $db->prepare("INSERT INTO uzivatel SET jmeno=? , heslo = ? ");
             $dotaz->execute([$this->jmeno, $this->heslo]);
+            //Zprávu uložit do proměnné a pomocí podmínky v admin.ph vypsat pro uživatele
             echo "Admin byl úspěšně registrován.";
         } else {
             echo "Byl dosažen maximální počet adminů.";
         }
     }
 }
+//V aplikaci nebudou jiní uživatelé než uživatel-administrátor. Proto tam nedávám roli “admin”.
 
