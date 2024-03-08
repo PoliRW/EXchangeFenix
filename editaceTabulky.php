@@ -1,6 +1,6 @@
 <?php
-
- require_once 'listek.php';
+session_start();
+require_once 'listek.php';
 // vyreset otvirane stranku s editaceTabula otvira se i bez prihlaseni
 
 //  zpracovani vyberu aktualni radek
@@ -61,76 +61,88 @@ if (array_key_exists("ulozit", $_POST)) {
             <!-- <label id=""> Kód </label>
         <label id=""> Nas.</label><label id=""> Nákup/</label><label id=""> Prodej/Sell</label> -->
 
+            <?php if (array_key_exists("prihlasenyUzivatel", $_SESSION) == false) {
 
-            <table>
-                <tr>
-                    <!-- <th> </th> -->
-                    <th>Název měny</th>
-                    <th>Kód </th>
-                    <th>Nas.</th>
-                    <th>Nákup/Buy</th>
-                    <th>Prodej/Sell</th>
-                </tr>
-                <?php
-                if (!(array_key_exists("ulozit", $_POST))) {
-                    foreach ($seznamListek as $klicRadek => $instanceRadek) { ?>
-                        <tr>
-                            <td>
-                                <a <?php
-                                    echo "href='?radek=$instanceRadek->menaKod'" ?>><?php echo $instanceRadek->menaNazev; ?></a>
+                // Zpracování chyb
+                echo " Chybně zadané heslo nebo uživatelské jméno" . "<br/>" ."<br/>".
+                    "<a href='http://localhost/EXchangeFenix/admin.php'>➡️ Návrat zpět do přihlašovacího formuláře</a>";
+            }
+            // sekce pro prihlaseni uživatele 
 
-                                <!-- link nefunguje pri method post nachradim button
+            else { ?>
+                <table>
+                    <tr>
+                        <!-- <th> </th> -->
+                        <th>Název měny</th>
+                        <th>Kód </th>
+                        <th>Nas.</th>
+                        <th>Nákup/Buy</th>
+                        <th>Prodej/Sell</th>
+                    </tr>
+                    <?php
+                    if (!(array_key_exists("ulozit", $_POST))) {
+                        foreach ($seznamListek as $klicRadek => $instanceRadek) { ?>
+                            <tr>
+                                <td>
+                                    <a <?php
+                                        echo "href='?radek=$instanceRadek->menaKod'" ?>><?php echo $instanceRadek->menaNazev; ?></a>
+
+                                    <!-- link nefunguje pri method post nachradim button
                             <button name="radek" <php echo "value= '$instanceRadek->menaKod'" ?>><php echo $instanceRadek->menaNazev; ?></button>  -->
 
-                            </td>
-                            <td>
-                                <input type="text" name="menaKod" value="<?php echo htmlspecialchars($instanceRadek->menaKod); ?>" />
-                            </td>
-                            <td>
-                                <input type="text" name="mnozstvi" value="<?php echo htmlspecialchars($instanceRadek->mnozstvi); ?>" />
-                            </td>
-                            <td>
-                                <input type="text" name="cenaNakup" required value="<?php echo htmlspecialchars($instanceRadek->cenaNakup); ?>" />
-                            </td>
-                            <td>
-                                <input type="text" name="cenaProdej" required value="<?php echo htmlspecialchars($instanceRadek->cenaProdej); ?>" />
-                            </td>
-                        </tr>
+                                </td>
+                                <td>
+                                    <input type="text" name="menaKod" value="<?php echo htmlspecialchars($instanceRadek->menaKod); ?>" />
+                                </td>
+                                <td>
+                                    <input type="text" name="mnozstvi" value="<?php echo htmlspecialchars($instanceRadek->mnozstvi); ?>" />
+                                </td>
+                                <td>
+                                    <input type="text" name="cenaNakup" required value="<?php echo htmlspecialchars($instanceRadek->cenaNakup); ?>" />
+                                </td>
+                                <td>
+                                    <input type="text" name="cenaProdej" required value="<?php echo htmlspecialchars($instanceRadek->cenaProdej); ?>" />
+                                </td>
+                            </tr>
 
                         <?php
-                    }
-                } else {
-                    foreach ($seznamListek as $klicRadek => $instanceRadek) { ?>
-                        <tr>
-                            <td>
-                                <a <?php
-                                    echo "href='?radek=$instanceRadek->menaKod'" ?>><?php echo $instanceRadek->menaNazev; ?></a>
+                        }
+                    } else {
+                        foreach ($seznamListek as $klicRadek => $instanceRadek) { ?>
+                            <tr>
+                                <td>
+                                    <a <?php
+                                        echo "href='?radek=$instanceRadek->menaKod'" ?>><?php echo $instanceRadek->menaNazev; ?></a>
 
-                                <!-- link nefunguje pri method post nachradim button
+                                    <!-- link nefunguje pri method post nachradim button
                             <button name="radek" <php echo "value= '$instanceRadek->menaKod'" ?>><php echo $instanceRadek->menaNazev; ?></button>  -->
 
-                            </td>
-                            <td>
-                                <input type="text" name="menaKod" value="<?php echo htmlspecialchars($instanceRadek->menaKod); ?>" />
-                            </td>
-                            <td>
-                                <input type="text" name="mnozstvi" value="<?php echo htmlspecialchars($instanceRadek->mnozstvi); ?>" />
-                            </td>
-                            <td>
-                                <input type="text" name="cenaNakup" required value="<?php echo htmlspecialchars($instanceRadek->cenaNakup); ?>" />
-                            </td>
-                            <td>
-                                <input type="text" name="cenaProdej" required value="<?php echo htmlspecialchars($instanceRadek->cenaProdej); ?>" />
-                            </td>
-                        </tr>
-                <?Php    }
-                } ?>
+                                </td>
+                                <td>
+                                    <input type="text" name="menaKod" value="<?php echo htmlspecialchars($instanceRadek->menaKod); ?>" />
+                                </td>
+                                <td>
+                                    <input type="text" name="mnozstvi" value="<?php echo htmlspecialchars($instanceRadek->mnozstvi); ?>" />
+                                </td>
+                                <td>
+                                    <input type="text" name="cenaNakup" required value="<?php echo htmlspecialchars($instanceRadek->cenaNakup); ?>" />
+                                </td>
+                                <td>
+                                    <input type="text" name="cenaProdej" required value="<?php echo htmlspecialchars($instanceRadek->cenaProdej); ?>" />
+                                </td>
+                            </tr>
+                    <?Php    }
+                    }
+                    ?>
 
-            </table>
-            <button name='ulozit'>Uložit</button>
+                </table>
+                <button name='ulozit'>Uložit</button>
         </form>
         <a href='http://localhost/EXchangeFenix/admin.php'>edit</a>
+    <?php    //"konec podmínka, která určuje, zda je uživatel přihlášen"
+            } ?>
     </main>
+
 </body>
 
 </html>
