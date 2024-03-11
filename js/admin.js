@@ -22,3 +22,15 @@ $("#stranky").sortable({
         })
     }
 });
+
+    // Hláška při stisknutí tlačítka Registrace
+    // const element = document.querySelector('button[name="registraceFormular"]');
+    // console.log(element);
+    //             element.addEventListener('click', (udalost) => {
+
+    //                 if (confirm("Opravdu chcete registrovat nového admina?") == false) {
+    //     udalost.preventDefault();
+    //                 }
+
+    //             });
+

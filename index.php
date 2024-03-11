@@ -32,7 +32,7 @@ if (array_key_exists("stranka", $_GET)) {
     <link rel="stylesheet" href="style.css/style.css">
     <meta name="description" content="Oblíbená směnárna v centru města s výhodnými  kurzy pro směnu valut. VIP kurz dostane každý s využitím slevového kupónu, který je ke zobrazení na webových stránkách. Najdete zde i on-line srovnání kurzů bank. Veškeré směny jsou samozřejmě bez poplatků.">
     <link rel="stylesheet" href="style.css/listekStyle.css">
-    <link rel="shortcut icon" href="image/change.png" type="image/x-icon">
+    <link rel="icon" type="image/png" href="image/change.png">
     <title><?php echo $seznamStranek[$aktualniStranka]->titulek; ?></title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
@@ -82,7 +82,7 @@ if (array_key_exists("stranka", $_GET)) {
 
             //zobrazit  vybrana stranka
             $obsah = $seznamStranek[$aktualniStranka]->getObsah();
-            // call library function 
+            // volani library function- 
             echo primakurzy\Shortcode\Processor::process('shortcodes', $obsah);
             echo "</section>";
             if (!array_key_exists("souhlasim", $_COOKIE)) {
