@@ -7,47 +7,53 @@ $jmeno = " ";
 $heslo = " ";
 $heslo_znovu = " ";
 $chyba = [];
+$registraceChyba = "";
+
+//Zpracování chybně vyplněného registračního formuláře
+
+if (array_key_exists("registraceFormular", $_POST)) {
+    $registraceChyba = $_POST["registraceFormular"];
+}
+
 // Zpracování registračního formuláře
 //-------------------------------------------------------------------------------------------------------------------------------------
-if (array_key_exists("registraceFormular", $_POST)) {
-    $registrovat = 1;}
-
-    if (array_key_exists("registrovat", $_POST)) {
-        $jmeno = $_POST["jmeno"];
-        $heslo = $_POST["heslo"];
-        $znovu_heslo = $_POST["heslo_znovu"];
-        $admin = new Uzivatel($jmeno, $heslo);
-        // Kontrola délky jména
-        if (strlen($jmeno) < 3) {
-            $chyba[] = "Jméno musí být minimálně 3 znaky.";
-        }
-
-        // Kontrola velkých písmen v hesle
-        if (!preg_match('/[A-Z]/', $heslo)) {
-            $chyba[] = "Heslo musí obsahovat alespoň 1 velké písmeno.";
-        }
-
-        // Kontrola speciálních znaků v hesle
-        if (!preg_match('/[^a-zA-Z0-9]/', $heslo)) {
-            $chyba[] = "Heslo musí obsahovat alespoň 1 speciální znak.";
-        }
-
-        // Kontrola délky hesla
-        if (strlen($heslo) < 8) {
-            $chyba[] = "Heslo musí být minimálně 8 znaků dlouhé.";
-        }
-
-        // Kontrola shody hesel
-        if ($heslo !== $znovu_heslo) {
-            $chyba[] = "Hesla se neshodují.";
-        }
-
-        if (empty($chyba)) {
-            $admin->registrovat();
-        } else {
-            $_SESSION["chyba"] = $chyba;
-        }
+if (array_key_exists("registrovat", $_POST)) {
+    $jmeno = $_POST["jmeno"];
+    $heslo = $_POST["heslo"];
+    $znovu_heslo = $_POST["heslo_znovu"];
+    $admin = new Uzivatel($jmeno, $heslo);
+    // Kontrola délky jména
+    if (strlen($jmeno) < 3) {
+        $chyba[] = "Jméno musí být minimálně 3 znaky.";
     }
+
+    // Kontrola velkých písmen v hesle
+    if (!preg_match('/[A-Z]/', $heslo)) {
+        $chyba[] = "Heslo musí obsahovat alespoň 1 velké písmeno.";
+    }
+
+    // Kontrola speciálních znaků v hesle
+    if (!preg_match('/[^a-zA-Z0-9]/', $heslo)) {
+        $chyba[] = "Heslo musí obsahovat alespoň 1 speciální znak.";
+    }
+
+    // Kontrola délky hesla
+    if (strlen($heslo) < 8) {
+        $chyba[] = "Heslo musí být minimálně 8 znaků dlouhé.";
+    }
+
+    // Kontrola shody hesel
+    if ($heslo !== $znovu_heslo) {
+        $chyba[] = "Hesla se neshodují.";
+    }
+
+    if (empty($chyba)) {
+        $admin->registrovat();
+    } else {
+        $_SESSION["chyba"] = $chyba;
+    }
+}
+
 
 //konec zpracování registračního formuláře
 //-------------------------------------------------------------------------------------------------------------------------------------
@@ -109,7 +115,7 @@ if (array_key_exists("prihlasenyUzivatel", $_SESSION)) {
         $instanceAktualniStranky->id = $_POST['id'];
         $instanceAktualniStranky->titulek = $_POST['titulek'];
         $instanceAktualniStranky->menu = $_POST['menu'];
-        $instanceAktualniStranky->ulozit($puvodniId);
+        // $instanceAktualniStranky->ulozit($puvodniId);
         $obsah = $_POST["obsah"];
         $instanceAktualniStranky->setObsah($obsah);
         // presmerujeme se na url s editaci stranky s novym id
@@ -149,7 +155,7 @@ if (array_key_exists("prihlasenyUzivatel", $_SESSION)) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css/styleAdmin.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
+    <link rel="icon" type="image/png" href="image/admin.png">
     <title>Administration</title>
     <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
@@ -159,11 +165,12 @@ if (array_key_exists("prihlasenyUzivatel", $_SESSION)) {
 <body>
     <main class='padding'>
         <?php
-        if (isset($registrovat) == 1) {
+        if (array_key_exists("registraceFormular", $_POST)) {
 
             //Sekce pro registraci uživatele
             //------------------------------------------------------------------------------------------------------------
         ?>
+
             <form method="post" class="styleBox">
                 <label for="jmeno">Jmeno</label>
                 <input type="text" name="jmeno" id="jmeno">
@@ -172,29 +179,32 @@ if (array_key_exists("prihlasenyUzivatel", $_SESSION)) {
                 <label for="heslo2">Heslo znovu</label>
                 <input type="password" name="heslo_znovu" id="heslo2">
                 <button name="registrovat"> Registrovat </button>
+
             </form>
+            <a href='http://localhost/EXchangeFenix/admin.php'>➡️ Zpět do přihlašovacího formuláře</a>
+
             <?php
             // Zpracování chyb
-
             if (isset($_SESSION["chyba"])) {
                 foreach ($_SESSION["chyba"] as $chyba) {
                     echo "<p>$chyba</p>";
-    // Registrační sekce pro nepřihlášené a nepodařenou registraci uživatele
                 }
-                // unset($_SESSION["chyba"]);
-                
+
+                unset($_SESSION["chyba"]);
             }
 
 
             //Konec Sekce pro registraci uživatele
-            //----------------------------------------------------------------------------------------------------------------------
+            //------------------------------------------------------------------------------------------------------
+
             exit;
         }
 
 
+
         if (array_key_exists("prihlasenyUzivatel", $_SESSION) == false) {
             // Sekce pro neprihlasene uzivatele
-            //-----------------------------------------------------------------------------------------------------------------
+            //--------------------------------------------------------------------------------------------------
             ?>
             <form method="post" class="styleBox">
                 <label for="jmeno">Jmeno</label>
@@ -212,124 +222,78 @@ if (array_key_exists("prihlasenyUzivatel", $_SESSION)) {
                 foreach ($_SESSION["chyba"] as $chyba) {
                     echo "<p>$chyba</p>";
                 }
+
                 unset($_SESSION["chyba"]);
             }
         } else {
             // sekce pro prihlasene uzivatele
-            // podminka pro zobrazeni listek
-            if (isset($_GET['radek']) == false) {
+            //-----------------------------------------------------------------------------------------------
 
-                echo "<div class='styleBox color'>Přihlášen uživatel: {$_SESSION["prihlasenyUzivatel"]}";
+            echo "<div class='styleBox color'>Přihlášen uživatel: {$_SESSION["prihlasenyUzivatel"]}";
             ?>
-                <form method='post' class="padding">
-                    <button name='odhlasit'>Odhlásit</button>
-                </form>
-                </div>
-                <!-- editace listek -->
-                <form method="get" class='link padding'>
-                    <button name='radek'>Listek</button>
-                </form>
-                <!--  listek k editace -->
-                <div class='link'>
-                    <ul id="stranky">
-                        <?php
-                        //vypiseme seznam stranek, ktere lze editovat
-                        foreach ($seznamStranek as $klic => $instanceStranky) {
-                            //<a href='pobocky'> fungue pomoci friendly url conf.nastaveni apche v slozka .htaccess
-                            echo "
-                        <li id='$instanceStranky->id'> 
+            <form method='post' class="padding">
+                <button name='odhlasit'>Odhlásit</button>
+            </form>
+            </div>
+            <!-- editace listek --------------------------------->
+            <div class='link'>
+                <a href=editaceTabulky.php>Listek</a>
+            </div>
+
+            <div class='link'>
+                <ul id="stranky">
+                    <?php
+                    //vypiseme seznam stranek, ktere lze editovat
+                    foreach ($seznamStranek as $klic => $instanceStranky) {
+                        //<a href='pobocky'> fungue pomoci friendly url conf.nastaveni apche v slozka .htaccess
+
+                        echo "<li id='$instanceStranky->id'> 
                             <a href='?stranka=$instanceStranky->id'><i class='fa-regular fa-pen-to-square'></i></a>
                             <a href='$instanceStranky->id' target='_blank'><i class='fa-regular fa-eye'></i></a>
                             <a id = 'mazat' class = 'smazat' href='?stranka=$instanceStranky->id&smazat'><i class='fa-regular fa-trash-can'></i></a>
                             $instanceStranky->id
                         </li>";
-                        }
-                        echo "</ul>
-            </div>";
-                        ?>
-
-                        <!-- formular s tlacitkem pro pridani stranky -->
-                        <form class='padding'>
-                            <button name='pridat'>Přidat</button>
-                        </form>
-
-                        <!-- editacni formular -->
-                        <?php if ($instanceAktualniStranky != null) {
-                            echo "<div class ='styleBox color'><h3>";
-                            if ($instanceAktualniStranky->id == "") {
-                                echo "Přidávání stránky";
-                            } else {
-                                echo "Editace stránky $instanceAktualniStranky->id ";
-                            }
-                            echo "</h3></div>";
-                        ?>
-                            <form method='post'>
-                                <div class="styleBox">
-                                    <label for='id'>Id:</label>
-                                    <input type='text' name='id' id='id' value='<?php echo htmlspecialchars($instanceAktualniStranky->id) ?>'>
-                                    <label for='titulek'>Titulek:</label>
-                                    <input type='text' name='titulek' id='titulek' value='<?php echo htmlspecialchars($instanceAktualniStranky->titulek) ?>'>
-                                    <label for='menu'>Menu:</label>
-                                    <input type='text' name='menu' id='menu' value='<?php echo htmlspecialchars($instanceAktualniStranky->menu) ?>'>
-                                </div>
-
-                            <?php echo "<textarea name='obsah' id='obsah'>";
-
-                            echo htmlspecialchars($instanceAktualniStranky->getObsah());
-                            echo "</textarea >        
-                      <button name='ulozit'>Ulozit</button>
-                 </form>";
-                        }
-                    } else { ?>
-                            <form method="get" class="styleBox" action="editaceTabulky.php">
-                                <!-- <label id="nazevMena"> Název měny </label> -->
-                                <!-- <label id=""> Kód </label>
-        <label id=""> Nas.</label><label id=""> Nákup/</label><label id=""> Prodej/Sell</label> -->
-                                <table>
-                                    <tr>
-                                        <!-- <th> </th> -->
-                                        <th>Název měny</th>
-                                        <th>Kód </th>
-                                        <th>Nas.</th>
-                                        <th>Nákup/Buy</th>
-                                        <th>Prodej/Sell</th>
-                                    </tr>
-                                    <?php
-                                    foreach ($seznamListek as $klicRadek => $instanceRadek) { ?>
-                                        <tr>
-                                            <td>
-                                                <a <?php
-                                                    echo "href='?radek=$instanceRadek->menaKod'" ?>><?php echo $instanceRadek->menaNazev; ?></a>
-
-                                            </td>
-                                            <td>
-                                                <input type="text" name="menaKod" value="<?php echo htmlspecialchars($instanceRadek->menaKod); ?>" />
-                                            </td>
-                                            <td>
-                                                <input type="text" name="mnozstvi" value="<?php echo htmlspecialchars($instanceRadek->mnozstvi); ?>" />
-                                            </td>
-                                            <td>
-                                                <input type="text" name="cenaNakup" required value="<?php echo htmlspecialchars($instanceRadek->cenaNakup); ?>" />
-                                            </td>
-                                            <td>
-                                                <input type="text" name="cenaProdej" required value="<?php echo htmlspecialchars($instanceRadek->cenaProdej); ?>" />
-                                            </td>
-                                        </tr>
-
-                                    <?php
-                                        $instanceRadek->cenaNakup = $_GET['cenaNakup'];
-                                        var_dump($instanceRadek->cenaNakup);
-                                    }
-                                    ?>
-
-
-                                </table>
-                                <button name='ulozitListek'>Uložit</button>
-                            </form>
-                    <?php echo "<div><a href='?'>Zpět</a></div>";
                     }
-                }
+                    echo "</ul>
+                </div>";
                     ?>
+
+                    <!-- formular s tlacitkem pro pridani stranky ---------------------------------------------------------------------------------------->
+                    <form class='padding'>
+                        <button name='pridat'>Přidat</button>
+                    </form>
+                    <!-- ----------------------------------------------------------------------------------->
+
+                    <!-- editacni formular ------------------------------------------------------------------>
+                    <?php if ($instanceAktualniStranky != null) {
+                        echo "<div class ='styleBox color'><h3>";
+                        if ($instanceAktualniStranky->id == "") {
+                            echo "Přidávání stránky";
+                        } else {
+                            echo "Editace stránky $instanceAktualniStranky->id";
+                        }
+                        echo "</h3></div>";
+                    ?>
+                        <form method='post'>
+                            <div class="styleBox">
+                                <label for='id'>Id:</label>
+                                <input type='text' name='id' id='id' value='<?php echo htmlspecialchars($instanceAktualniStranky->id) ?>'>
+                                <label for='titulek'>Titulek:</label>
+                                <input type='text' name='titulek' id='titulek' value='<?php echo htmlspecialchars($instanceAktualniStranky->titulek) ?>'>
+                                <label for='menu'>Menu:</label>
+                                <input type='text' name='menu' id='menu' value='<?php echo htmlspecialchars($instanceAktualniStranky->menu) ?>'>
+                            </div>
+
+                    <?php echo "<textarea name='obsah' id='obsah'>";
+
+                        echo htmlspecialchars($instanceAktualniStranky->getObsah());
+                        echo "</textarea >        
+                             <button name='ulozit'>Ulozit</button>
+                        </form>";
+                    }
+                } ?>
+
+
                     <!-- script pro prace s timymce -->
                     <script src='vendor\tinymce\tinymce\tinymce.min.js' referrerpolicy='origin'></script>
                     <script>

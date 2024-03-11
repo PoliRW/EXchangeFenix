@@ -37,16 +37,17 @@ class Radek
         $this->cenaProdej = $cenaProdejArg;
     }
 
-    static function nastavitCena($cenaNakup)
+    function ulozitCenaNakup($novaCenaNakup, $idRadek)
     {
-        // global $db;
-        // //projdeme pole s cena nakup 
-        // foreach ($cenaNakup as $klic => $idRadek) {
-        //     $dotaz=$db->prepare("UPDATE listek SET cena_nakup =? WHERE mena_kod");
-        //     $dotaz->execute([]);
-        // }
+        global $db; // 
+
+        // Aktualizace hodnoty v databázi
+
+        $dotaz = $db->prepare("UPDATE listek SET cena_nakup = ? WHERE mena_kod = ?");
+        $dotaz->execute([$novaCenaNakup, $idRadek]);
     }
 }
+
 global $db;
 $seznamListek = [];
 $dotaz = $db->prepare("SELECT * FROM listek ");
@@ -56,6 +57,8 @@ foreach ($listek as $radek) {
     // pridame do pole novou instanci tridy Radek
     $seznamListek[$radek['mena_kod']] = new Radek($radek['id'], $radek['zeme_obrazek'], $radek['mena_nazev'], $radek['mena_kod'], $radek['mnozstvi'], $radek['cena_nakup'], $radek['cena_prodej']);
 }
+
+
 // $pokus="<img src='./image/logo.png' alt='usa-flag' width='70'>";
 // $obraz = $db->prepare("UPDATE `listek` SET `zeme_obrazek` = '<img src=\'./image/GBP.png\' alt=\'vlajka\' width=\'80\'>' WHERE `listek`.`id` = 4");
 // $obraz->execute();
